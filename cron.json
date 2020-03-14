@@ -5,7 +5,8 @@
     "website": "https://github.com/st3v0rr/rockstor-cron",
     "containers": {
       "cron": {
-        "image": "st3v0rr/cron:latest",
+        "image": "st3v0rr/cron",
+        "tag": "latest",
         "launch_order": 1,
         "environment": {
           "CURL_USERNAME": {
