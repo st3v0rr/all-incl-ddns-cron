@@ -6,7 +6,7 @@ node {
     }
 
     stage('Build image') {
-        app = docker.build("st3v0rr/all-incl-ddns-cron")
+        app = docker.build("st3v0rr/all-incl-ddns-cron", "--no-cache --pull .")
     }
 
     stage('Push image') {
