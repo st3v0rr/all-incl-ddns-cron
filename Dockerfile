@@ -1,11 +1,17 @@
-FROM centos:centos7
+FROM alpine:3.19
 
-RUN yum -y update
-RUN yum -y install crontabs
+RUN apk add --no-cache \
+    bash \
+    curl \
+    tzdata
 
-ADD runcurl.sh /runcurl.sh
-ADD entrypoint.sh /entrypoint.sh
+WORKDIR /app
 
-RUN chmod +x /runcurl.sh /entrypoint.sh
+COPY runcurl.sh entrypoint.sh ./
+RUN chmod +x runcurl.sh entrypoint.sh
 
-ENTRYPOINT /entrypoint.sh
+RUN mkdir -p /var/log
+
+STOPSIGNAL SIGINT
+
+CMD ["/app/entrypoint.sh"]

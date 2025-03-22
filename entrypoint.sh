@@ -1,13 +1,25 @@
 #!/bin/bash
 
-echo "Cron Docker container has been started"
+echo "Docker container has been started"
 
-declare -p | grep -Ev 'BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID' > /container.env
+cleanup() {
+    echo "Signal empfangen, Container wird beendet..."
+    exit 0
+}
 
-echo "SHELL=/bin/bash
-BASH_ENV=/container.env
-*/15 * * * * /runcurl.sh > /var/log/runcurl.log 2>&1
-#" > scheduler.txt
+trap cleanup SIGTERM SIGINT
 
-crontab scheduler.txt
-crond && tail -f /dev/null
+touch /var/log/runcurl.log
+
+echo "Starting periodic execution loop..."
+while true; do
+    MINUTES=$(date +%M)
+    SECONDS=$(date +%S)
+
+    if [ $((MINUTES % 15)) -eq 0 ] && [ $SECONDS -lt 10 ]; then
+        echo "Executing runcurl.sh at $(date)" >> /var/log/runcurl.log
+        /app/runcurl.sh >> /var/log/runcurl.log 2>&1
+    fi
+
+    sleep 9
+done
