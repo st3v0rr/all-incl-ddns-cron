@@ -8,7 +8,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_HUB_REPO: st3v0rr/all-incl-ddns-cron
+  DOCKER_HUB_REPO: st3v0rr/all-inkl-ddns-cron
 
 jobs:
   build-and-push:
