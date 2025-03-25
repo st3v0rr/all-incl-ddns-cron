@@ -13,8 +13,8 @@ touch /var/log/runcurl.log
 
 echo "Starting periodic execution loop..."
 while true; do
-    MINUTES=$(date +%M)
-    SECONDS=$(date +%S)
+    MINUTES=$((10#$(date +%M)))
+    SECONDS=$((10#$(date +%S)))
 
     if [ $((MINUTES % 15)) -eq 0 ] && [ $SECONDS -lt 10 ]; then
         echo "Executing runcurl.sh at $(date)" >> /var/log/runcurl.log
